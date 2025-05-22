@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Demandes de prise en charge</h2>
+<div class="mt-4">
+    {% for demande in demandes %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <div><strong>Patient :</strong> {{ demande.patient.get_full_name }}</div>
+                <div><strong>Date :</strong> {{ demande.created_at|date:'d/m/Y H:i' }}</div>
+                <div><strong>Lettre médicale :</strong> <a href="{{ demande.lettre_medicale.url }}" target="_blank">Voir le document</a></div>
+                <form method="post" class="mt-2">
+                    {% csrf_token %}
+                    <input type="hidden" name="demande_id" value="{{ demande.id }}">
+                    <button name="action" value="accepter" class="btn btn-success btn-sm">Accepter</button>
+                    <button name="action" value="refuser" class="btn btn-danger btn-sm">Refuser</button>
+                </form>
+                {% if demande.statut %}
+                    <div class="mt-2"><strong>Statut :</strong> {{ demande.statut }}</div>
+                {% endif %}
+            </div>
+        </div>
+    {% empty %}
+        <p>Aucune demande en attente.</p>
+    {% endfor %}
+</div>
+{% endblock %} 

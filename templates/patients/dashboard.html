@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex flex-wrap gap-3 my-4">
+    <a href="{% url 'accounts:kine_publications' %}" class="btn btn-primary">Mur de publications des kinés</a>
+    <a href="{% url 'accounts:patient_message_kine' %}" class="btn btn-primary">Envoyer un message à un kiné</a>
+    <a href="{% url 'accounts:patient_shop' %}" class="btn btn-primary">Acheter des produits</a>
+    <a href="{% url 'accounts:search_kine' %}" class="btn btn-primary">Rechercher un kiné et demander une prise en charge</a>
+    <a href="{% url 'home' %}" class="btn btn-secondary">Retour à l'accueil</a>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<style>
+    .btn-primary {
+        background-color: #0d6efd;
+        border: none;
+        font-weight: 500;
+        font-size: 1rem;
+        padding: 0.7rem 1.5rem;
+        border-radius: 30px;
+        transition: background 0.2s;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+        font-weight: 500;
+        font-size: 1rem;
+        padding: 0.7rem 1.5rem;
+        border-radius: 30px;
+        transition: background 0.2s;
+    }
+    .btn-secondary:hover {
+        background-color: #495057;
+    }
+</style>
+{% endblock %} 

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Mon profil kiné</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label>Nom complet :</label>
+        <input type="text" name="full_name" class="form-control" value="{{ user.get_full_name }}" required>
+    </div>
+    <div class="mb-3">
+        <label>Spécialité :</label>
+        <input type="text" name="specialite" class="form-control" value="{{ user.specialite }}">
+    </div>
+    <div class="mb-3">
+        <label>Expérience (années) :</label>
+        <input type="number" name="experience" class="form-control" value="{{ user.experience }}">
+    </div>
+    <div class="mb-3">
+        <label>Photo de profil :</label>
+        <input type="file" name="photo" class="form-control">
+        {% if user.profile_picture %}
+            <img src="{{ user.profile_picture.url }}" alt="Photo de profil" style="max-width:120px;" class="mt-2">
+        {% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary">Mettre à jour</button>
+</form>
+{% endblock %} 

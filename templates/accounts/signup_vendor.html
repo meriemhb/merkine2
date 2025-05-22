@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block title %}Inscription Vendeur - Kindom{% endblock %}
+
+{% block extra_css %}
+<style>
+    .signup-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    .signup-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    .signup-header h1 {
+        color: #0d6efd;
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+    .signup-header p {
+        color: #6c757d;
+        font-size: 1.1rem;
+    }
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #495057;
+        font-weight: 500;
+    }
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+    .form-control:focus {
+        border-color: #0d6efd;
+        outline: none;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    }
+    .btn-signup {
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 1.1rem;
+        background-color: #0d6efd;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .btn-signup:hover {
+        background-color: #0b5ed7;
+    }
+    .login-link {
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+    .login-link a {
+        color: #0d6efd;
+        text-decoration: none;
+    }
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+    .errorlist {
+        color: #dc3545;
+        list-style: none;
+        padding: 0;
+        margin: 0.5rem 0;
+    }
+    .form-row {
+        display: flex;
+        gap: 1rem;
+    }
+    .form-row .form-group {
+        flex: 1;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="signup-container">
+    <div class="signup-header">
+        <h1>Inscription Vendeur</h1>
+        <p>Créez votre compte vendeur pour accéder à votre espace de vente</p>
+    </div>
+
+    <form method="post" class="signup-form">
+        {% csrf_token %}
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="{{ form.first_name.id_for_label }}">Prénom</label>
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                <ul class="errorlist">
+                    {% for error in form.first_name.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.last_name.id_for_label }}">Nom</label>
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                <ul class="errorlist">
+                    {% for error in form.last_name.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label }}">Nom d'utilisateur</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+            <ul class="errorlist">
+                {% for error in form.username.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">Email</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+            <ul class="errorlist">
+                {% for error in form.email.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.phone_number.id_for_label }}">Numéro de téléphone</label>
+            {{ form.phone_number }}
+            {% if form.phone_number.errors %}
+            <ul class="errorlist">
+                {% for error in form.phone_number.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.password1.id_for_label }}">Mot de passe</label>
+            {{ form.password1 }}
+            {% if form.password1.errors %}
+            <ul class="errorlist">
+                {% for error in form.password1.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.password2.id_for_label }}">Confirmer le mot de passe</label>
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+            <ul class="errorlist">
+                {% for error in form.password2.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn-signup">Créer mon compte vendeur</button>
+    </form>
+
+    <div class="login-link">
+        <p>Vous avez déjà un compte ? <a href="{% url 'account_login' %}">Connectez-vous</a></p>
+    </div>
+</div>
+{% endblock %} 

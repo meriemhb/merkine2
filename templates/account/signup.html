@@ -1,0 +1,366 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block title %}Création de compte - Kindom{% endblock %}
+
+{% block extra_css %}
+<style>
+    .signup-container {
+        max-width: 1000px;
+        margin: 1rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 5px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    .signup-header {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+    .signup-header h1 {
+        color: #0d6efd;
+        font-size: 1.8rem;
+        margin-bottom: 0.3rem;
+    }
+    .signup-header p {
+        color: #6c757d;
+        font-size: 1rem;
+        margin: 0;
+    }
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 0.3rem;
+        color: #495057;
+        font-weight: 500;
+    }
+    .form-control {
+        width: 100%;
+        padding: 0.7rem;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+    .form-control:focus {
+        border-color: #0d6efd;
+        outline: none;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    }
+    .form-row {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    .form-row .form-group {
+        flex: 1;
+        margin-bottom: 0;
+    }
+    .user-type-group {
+        margin-bottom: 1rem;
+    }
+    .user-type-options {
+        display: flex;
+        gap: 0.8rem;
+        margin-top: 0.5rem;
+    }
+    .user-type-option {
+        flex: 1;
+        padding: 0.5rem;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background-color: #ffffff;
+    }
+    .user-type-option:hover {
+        transform: translateY(-1px);
+        background-color: #f8f9fa;
+    }
+    .user-type-option input {
+        display: none;
+    }
+    .user-type-option input:checked + label {
+        color: #fff;
+    }
+    .user-type-option input:checked + label i {
+        color: #fff;
+    }
+    .user-type-option label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.2rem;
+        cursor: pointer;
+        margin: 0;
+        padding: 0.3rem;
+    }
+    .user-type-option i {
+        font-size: 1rem;
+        color: #495057;
+        transition: all 0.2s ease;
+    }
+    .user-type-option span {
+        font-weight: 500;
+        font-size: 0.9rem;
+        color: #212529;
+    }
+    /* Style unique pour tous les types avant sélection */
+    .user-type-option input:checked + label {
+        background-color: #0d6efd;
+        border-radius: 4px;
+        padding: 0.3rem;
+    }
+    .user-type-option input:checked + label i,
+    .user-type-option input:checked + label span {
+        color: #fff;
+    }
+    @media (max-width: 768px) {
+        .user-type-options {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .user-type-option {
+            padding: 0.4rem;
+        }
+    }
+    .password-requirements {
+        margin-top: 0.3rem;
+        padding: 0.8rem;
+        background: #f8f9fa;
+        border-radius: 5px;
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+    .password-requirements ul {
+        margin: 0;
+        padding-left: 1.2rem;
+    }
+    .password-requirements li {
+        margin-bottom: 0.2rem;
+    }
+    .btn-signup {
+        width: 100%;
+        padding: 0.8rem;
+        background: #0d6efd;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        margin-top: 1rem;
+    }
+    .btn-signup:hover {
+        background: #0b5ed7;
+    }
+    .login-link {
+        text-align: center;
+        margin-top: 1rem;
+        color: #6c757d;
+    }
+    .login-link a {
+        color: #0d6efd;
+        text-decoration: none;
+    }
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+    .errorlist {
+        color: #dc3545;
+        list-style: none;
+        padding: 0;
+        margin: 0.3rem 0;
+        font-size: 0.9rem;
+    }
+    .form-separator {
+        height: 2px;
+        background: linear-gradient(to right, #4CAF50, #2196F3, #FF9800);
+        margin: 1.5rem 0;
+        border-radius: 2px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="signup-container">
+    <div class="signup-header">
+        <h1>Création de compte</h1>
+        <p>Vous avez déjà un compte ? Vous pouvez donc vous connecter.</p>
+    </div>
+
+    <form method="POST" action="{% url 'account_signup' %}">
+        {% csrf_token %}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="id_first_name">Prénom :</label>
+                <input type="text" name="first_name" id="id_first_name" class="form-control" required>
+                {% if form.first_name.errors %}
+                <ul class="errorlist">
+                    {% for error in form.first_name.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_last_name">Nom :</label>
+                <input type="text" name="last_name" id="id_last_name" class="form-control" required>
+                {% if form.last_name.errors %}
+                <ul class="errorlist">
+                    {% for error in form.last_name.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="id_birth_date">Date de naissance :</label>
+                <input type="date" name="birth_date" id="id_birth_date" class="form-control" required>
+                {% if form.birth_date.errors %}
+                <ul class="errorlist">
+                    {% for error in form.birth_date.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_wilaya">Wilaya :</label>
+                <select name="wilaya" id="id_wilaya" class="form-control" required>
+                    <option value="">Sélectionnez votre wilaya</option>
+                    <option value="Alger">Alger</option>
+                    <option value="Oran">Oran</option>
+                    <option value="Constantine">Constantine</option>
+                    <option value="Annaba">Annaba</option>
+                    <option value="Blida">Blida</option>
+                    <!-- Ajoutez les autres wilayas ici -->
+                </select>
+                {% if form.wilaya.errors %}
+                <ul class="errorlist">
+                    {% for error in form.wilaya.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="id_email">E-mail :</label>
+                <input type="email" name="email" id="id_email" class="form-control" placeholder="Adresse e-mail" required>
+                {% if form.email.errors %}
+                <ul class="errorlist">
+                    {% for error in form.email.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_phone">Numéro de téléphone :</label>
+                <input type="tel" name="phone" id="id_phone" class="form-control" placeholder="Ex: 0555 123 456" required>
+                {% if form.phone.errors %}
+                <ul class="errorlist">
+                    {% for error in form.phone.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="user-type-group">
+            <label>Type de compte :</label>
+            <div class="user-type-options">
+                <div class="user-type-option">
+                    <input type="radio" name="user_type" id="id_user_type_patient" value="patient" required>
+                    <label for="id_user_type_patient">
+                        <i class="fas fa-user"></i>
+                        <span>Patient</span>
+                    </label>
+                </div>
+                <div class="user-type-option">
+                    <input type="radio" name="user_type" id="id_user_type_kine" value="kine">
+                    <label for="id_user_type_kine">
+                        <i class="fas fa-user-md"></i>
+                        <span>Kinésithérapeute</span>
+                    </label>
+                </div>
+                <div class="user-type-option">
+                    <input type="radio" name="user_type" id="id_user_type_vendor" value="vendor">
+                    <label for="id_user_type_vendor">
+                        <i class="fas fa-store"></i>
+                        <span>Vendeur</span>
+                    </label>
+                </div>
+            </div>
+            {% if form.user_type.errors %}
+            <ul class="errorlist">
+                {% for error in form.user_type.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="id_password1">Mot de passe :</label>
+            <input type="password" name="password1" id="id_password1" class="form-control" placeholder="Mot de passe" required>
+            {% if form.password1.errors %}
+            <ul class="errorlist">
+                {% for error in form.password1.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="id_password2">Mot de passe (confirmation) :</label>
+            <input type="password" name="password2" id="id_password2" class="form-control" placeholder="Mot de passe (confirmation)" required>
+            {% if form.password2.errors %}
+            <ul class="errorlist">
+                {% for error in form.password2.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="password-requirements">
+            <ul>
+                <li>Votre mot de passe ne peut pas trop ressembler à vos autres informations personnelles.</li>
+                <li>Votre mot de passe doit contenir au minimum 8 caractères.</li>
+                <li>Votre mot de passe ne peut pas être un mot de passe couramment utilisé.</li>
+                <li>Votre mot de passe ne peut pas être entièrement numérique.</li>
+            </ul>
+        </div>
+
+        <div class="form-separator"></div>
+
+        <button type="submit" class="btn-signup">Création de compte</button>
+    </form>
+
+    <div class="login-link">
+        <p>Vous avez déjà un compte ? <a href="{% url 'account_login' %}">Se connecter</a></p>
+    </div>
+</div>
+{% endblock %} 

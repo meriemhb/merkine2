@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Tableau de bord Vendeur - Kindom{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dashboard-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    .stat-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .stat-card h3 {
+        color: #6c757d;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+    .stat-card .number {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #0d6efd;
+    }
+    .recent-orders {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .recent-orders h2 {
+        color: #212529;
+        margin-bottom: 1rem;
+    }
+    .order-list {
+        list-style: none;
+        padding: 0;
+    }
+    .order-item {
+        padding: 1rem;
+        border-bottom: 1px solid #dee2e6;
+    }
+    .order-item:last-child {
+        border-bottom: none;
+    }
+    .order-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+    }
+    .order-id {
+        font-weight: bold;
+        color: #0d6efd;
+    }
+    .order-date {
+        color: #6c757d;
+    }
+    .order-details {
+        color: #495057;
+    }
+    .btn-add-product {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background-color: #0d6efd;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-bottom: 1.5rem;
+    }
+    .btn-add-product:hover {
+        background-color: #0b5ed7;
+        color: white;
+    }
+    .vendor-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+    .vendor-header h1 {
+        margin: 0;
+        color: #212529;
+    }
+    .vendor-actions {
+        display: flex;
+        gap: 1rem;
+    }
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        text-decoration: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 5px;
+    }
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="vendor-header">
+        <h1>Tableau de bord Vendeur</h1>
+        <div class="vendor-actions">
+            <a href="{% url 'shop:product_create' %}" class="btn-add-product">Ajouter un produit</a>
+            <a href="{% url 'shop:product_list' %}" class="btn-secondary">Voir tous les produits</a>
+        </div>
+    </div>
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total des produits</h3>
+            <div class="number">{{ total_products }}</div>
+        </div>
+        <div class="stat-card">
+            <h3>Total des commandes</h3>
+            <div class="number">{{ total_orders }}</div>
+        </div>
+    </div>
+    
+    <div class="recent-orders">
+        <h2>Commandes récentes</h2>
+        {% if recent_orders %}
+            <ul class="order-list">
+                {% for order in recent_orders %}
+                <li class="order-item">
+                    <div class="order-header">
+                        <span class="order-id">Commande #{{ order.id }}</span>
+                        <span class="order-date">{{ order.created_at|date:"d/m/Y H:i" }}</span>
+                    </div>
+                    <div class="order-details">
+                        <p>Client: {{ order.customer.get_full_name }}</p>
+                        <p>Statut: {{ order.get_status_display }}</p>
+                        <p>Montant total: {{ order.total_amount }} €</p>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aucune commande récente.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 

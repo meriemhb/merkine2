@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Messages des patients</h2>
+<div class="mt-4">
+    {% for msg in messages %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <div><strong>De :</strong> {{ msg.patient.get_full_name }}</div>
+                <div class="mb-2"><strong>Message :</strong> {{ msg.texte }}</div>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="msg_id" value="{{ msg.id }}">
+                    <div class="mb-2">
+                        <textarea name="reponse" class="form-control" placeholder="Votre réponse..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">Répondre</button>
+                </form>
+                {% if msg.reponse %}
+                    <div class="mt-2 text-success"><strong>Réponse envoyée :</strong> {{ msg.reponse }}</div>
+                {% endif %}
+            </div>
+        </div>
+    {% empty %}
+        <p>Aucun message pour le moment.</p>
+    {% endfor %}
+</div>
+{% endblock %} 

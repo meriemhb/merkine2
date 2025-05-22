@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Accueil - Kindom{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Présentation générale -->
+    <div class="col-12 mb-4">
+        <div class="alert alert-primary text-center shadow-sm" style="background: linear-gradient(90deg, #2196f3 60%, #0d6efd 100%); border-radius: 32px; box-shadow: 0 8px 32px rgba(13,110,253,0.12); max-width: 98vw; margin: 0 auto; padding: 3.5rem 3rem;">
+            <h1 class="display-4 mb-3 fw-bold" style="color:#fff; text-shadow:2px 2px 10px rgba(13,110,253,0.18); letter-spacing:1px;">Plateforme de kinésithérapie à domicile</h1>
+            <p class="lead mb-0" style="color:#f8f9fa; font-size:1.2rem; font-style:italic; letter-spacing:0.5px;">
+                Et si votre bien-être commençait ici&nbsp;? <span style="font-weight:600; color:#fff;">Découvrez ce que Kindom vous réserve&nbsp;: des services exclusifs, des conseils inédits, et bien plus encore...</span><br>
+                Faites défiler pour lever le voile sur une nouvelle expérience santé à domicile.
+            </p>
+        </div>
+    </div>
+
+    <!-- Nos Services -->
+    <div class="col-12 mb-5">
+        <div class="banner-section position-relative text-white" style="background: linear-gradient(90deg, #2196f3 60%, #0d6efd 100%); border-radius: 32px; box-shadow: 0 8px 32px rgba(13,110,253,0.12); max-width: 98vw; margin: 0 auto; padding: 3.5rem 3rem; overflow: hidden; min-height: 260px; display: flex; align-items: center; justify-content: center;">
+            <div class="container py-5">
+                <div class="row align-items-center">
+                    <div class="col-md-7">
+                        <h2 class="fw-bold mb-3" style="font-size:2.7rem; letter-spacing:1px; color:#fff; text-shadow:2px 2px 10px rgba(13,110,253,0.18);">Votre Santé, <span style="color:#fff; text-shadow:2px 2px 10px rgba(13,110,253,0.18);">Notre Priorité</span></h2>
+                        <p class="lead mb-4" style="font-size:1.35rem; font-weight:500; color:#fff; text-shadow: 1px 1px 6px rgba(13,110,253,0.10); font-style:italic;">
+                            Découvrez une nouvelle façon de prendre soin de vous et de vos proches :
+                            <span style="font-weight:700; color:#fff;">posez vos questions</span> à des kinésithérapeutes qualifiés, <span style="font-weight:700; color:#fff;">bénéficiez de conseils personnalisés</span>, et accédez à des ressources exclusives pour votre bien-être.<br>
+                            Kindom vous accompagne à chaque étape, que ce soit pour un suivi à domicile, des astuces santé ou l'achat de matériel adapté.<br>
+                            <span style="font-weight:700; color:#fff;">Votre parcours santé commence ici !</span>
+                        </p>
+                        <div class="d-flex flex-wrap gap-3">
+                            <a href="{% url 'accounts:patient_message_kine' %}" class="btn btn-lg btn-light text-primary fw-bold shadow-sm" style="border-radius: 30px; min-width: 260px;">Questions aux kinésithérapeutes</a>
+                            <a href="{% url 'accounts:kine_publications' %}" class="btn btn-lg btn-outline-light fw-bold shadow-sm" style="border-radius: 30px; min-width: 260px;">Conseils santé & Blog</a>
+                        </div>
+                    </div>
+                    <div class="col-md-5 d-none d-md-block text-end">
+                        <img src="{% static 'images/imgacc/photo_2025-05-22_22-07-33.jpg' %}" alt="Kinésithérapie" style="max-width: 340px; width: 100%; height: auto;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nos Kinésithérapeutes -->
+    <div class="col-12 mb-5">
+        <h2 class="text-center mb-4" style="font-size:2.3rem; font-weight:700; background: linear-gradient(90deg, #0d6efd 60%, #00c6fb 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; text-shadow: 2px 2px 10px rgba(13,110,253,0.10); border-bottom: 3px solid #00c6fb; display: inline-block; padding-bottom: 6px;">Nos Kinésithérapeutes Qualifiés</h2>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-4">
+                <div class="card h-100 text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <img src="{% static 'images/kineimg/kine1.jpg' %}" alt="Dr. Ahmed" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                        <h3 class="card-title" style="font-size:2rem; font-weight:800;">Ahmed Ben Ali</h3>
+                        <p class="text-muted mb-1" style="font-size:1rem; color:#888;">أحمد بن علي</p>
+                        <p class="card-text">
+                            <strong>Spécialité:</strong> Rééducation sportive<br>
+                            <strong>Expérience:</strong> 15 ans<br>
+                            <strong>Diplômes:</strong> Doctorat en kinésithérapie sportive
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <img src="{% static 'images/kineimg/kine2.jpg' %}" alt="Dr. Fatima" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                        <h3 class="card-title" style="font-size:2rem; font-weight:800;">Fatima Zahra</h3>
+                        <p class="text-muted mb-1" style="font-size:1rem; color:#888;">فاطمة الزهراء</p>
+                        <p class="card-text">
+                            <strong>Spécialité:</strong> Kinésithérapie pédiatrique<br>
+                            <strong>Expérience:</strong> 12 ans<br>
+                            <strong>Diplômes:</strong> Master en rééducation pédiatrique
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <img src="{% static 'images/kineimg/kine3.jpg' %}" alt="Dr. Karim" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                        <h3 class="card-title" style="font-size:2rem; font-weight:800;">Karim Mohamed</h3>
+                        <p class="text-muted mb-1" style="font-size:1rem; color:#888;">كريم محمد</p>
+                        <p class="card-text">
+                            <strong>Spécialité:</strong> Rééducation neurologique<br>
+                            <strong>Expérience:</strong> 10 ans<br>
+                            <strong>Diplômes:</strong> Doctorat en neurologie
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Produits populaires -->
+    <div class="col-12 mb-5">
+        <div class="mt-5">
+            <h3 class="text-center mb-4" style="font-size:2rem; font-weight:700; background: linear-gradient(90deg, #0d6efd 60%, #00c6fb 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; text-shadow: 2px 2px 10px rgba(13,110,253,0.10); border-bottom: 3px solid #00c6fb; display: inline-block; padding-bottom: 6px;">Produits populaires</h3>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4">
+                    <div class="card h-100 text-center border-0 shadow">
+                        <div class="card-body">
+                            <img src="{% static 'images/kineprod/produit1.jpg' %}" alt="Bande élastique" style="width: 120px; height: 120px; object-fit: contain;" class="mb-3">
+                            <h4 class="card-title" style="font-size:1.3rem; font-weight:700;">Bande élastique de résistance</h4>
+                            <p class="text-muted mb-1" style="font-size:0.9rem; color:#888;">شريط مطاطي للمقاومة</p>
+                            <p class="card-text">Idéale pour les exercices de rééducation et de renforcement musculaire à domicile.</p>
+                            <span class="badge bg-success">800 DA</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 text-center border-0 shadow">
+                        <div class="card-body">
+                            <img src="{% static 'images/kineprod/produit2.jpg' %}" alt="Balle de rééducation" style="width: 120px; height: 120px; object-fit: contain;" class="mb-3">
+                            <h4 class="card-title" style="font-size:1.3rem; font-weight:700;">Balle de rééducation</h4>
+                            <p class="text-muted mb-1" style="font-size:0.9rem; color:#888;">كرة إعادة التأهيل</p>
+                            <p class="card-text">Permet d'améliorer la mobilité, la force et la coordination des membres.</p>
+                            <span class="badge bg-success">1 200 DA</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 text-center border-0 shadow">
+                        <div class="card-body">
+                            <img src="{% static 'images/kineprod/produit3.jpg' %}" alt="Tapis de sol" style="width: 120px; height: 120px; object-fit: contain;" class="mb-3">
+                            <h4 class="card-title" style="font-size:1.3rem; font-weight:700;">Tapis de sol antidérapant</h4>
+                            <p class="text-muted mb-1" style="font-size:0.9rem; color:#888;">حصيرة أرضية غير قابلة للانزلاق</p>
+                            <p class="card-text">Confortable et sécurisé pour réaliser vos exercices de kinésithérapie à la maison.</p>
+                            <span class="badge bg-success">2 500 DA</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Témoignages -->
+    <div class="col-12">
+        <h2 class="text-center mb-4" style="font-size:2.3rem; font-weight:700; background: linear-gradient(90deg, #0d6efd 60%, #00c6fb 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; text-shadow: 2px 2px 10px rgba(13,110,253,0.10); border-bottom: 3px solid #00c6fb; display: inline-block; padding-bottom: 6px;">Ce que disent nos clients</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-4 mb-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <img src="{% static 'images/client/client1.jpg' %}" alt="client1" class="rounded-circle mb-3" style="width: 110px; height: 110px; object-fit: cover;">
+                        <h5 class="card-title mb-1" style="font-size:1.3rem; font-weight:700;">Sarah</h5>
+                        <p class="text-muted mb-1" style="font-size:0.9rem; color:#888;">سارة</p>
+                        <p class="card-text">« J'ai pris rendez-vous pour ma mère, le kiné est venu à domicile, très professionnel et à l'écoute. Merci Kindom ! »</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <img src="{% static 'images/client/client2.jpg' %}" alt="client2" class="rounded-circle mb-3" style="width: 110px; height: 110px; object-fit: cover;">
+                        <h5 class="card-title mb-1" style="font-size:1.3rem; font-weight:700;">Mohamed</h5>
+                        <p class="text-muted mb-1" style="font-size:0.9rem; color:#888;">محمد</p>
+                        <p class="card-text">« J'ai commandé du matériel de rééducation, livraison rapide et produits de qualité. Je recommande vivement ! »</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <img src="{% static 'images/client/client3.jpg' %}" alt="client3" class="rounded-circle mb-3" style="width: 110px; height: 110px; object-fit: cover;">
+                        <h5 class="card-title mb-1" style="font-size:1.3rem; font-weight:700;">Leïla</h5>
+                        <p class="text-muted mb-1" style="font-size:0.9rem; color:#888;">ليلى</p>
+                        <p class="card-text">« Les conseils du blog m'ont beaucoup aidée après mon opération. Merci à toute l'équipe Kindom ! »</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mon Profil - Kindom{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                {% if user.profile_picture %}
+                    <img src="{{ user.profile_picture.url }}" alt="Photo de profil" class="rounded-circle img-fluid mb-3" style="max-width: 200px;">
+                {% else %}
+                    <img src="{% static 'images/default-profile.png' %}" alt="Photo de profil par défaut" class="rounded-circle img-fluid mb-3" style="max-width: 200px;">
+                {% endif %}
+                <h3 class="card-title">{{ user.get_full_name|default:user.email }}</h3>
+                <p class="text-muted">{{ user.get_user_type_display }}</p>
+                <div class="mt-3">
+                    <a href="{% url 'accounts:edit_profile' %}" class="btn btn-primary">Modifier le profil</a>
+                    <a href="{% url 'accounts:delete_profile' %}" class="btn btn-danger mt-2">Supprimer le compte</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Informations personnelles</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <p><strong>Email:</strong> {{ user.email }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <p><strong>Téléphone:</strong> {{ user.phone_number|default:"Non renseigné" }}</p>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <p><strong>Adresse:</strong></p>
+                    <p>{{ user.address|default:"Non renseignée"|linebreaks }}</p>
+                </div>
+                <div class="mb-3">
+                    <p><strong>À propos:</strong></p>
+                    <p>{{ user.bio|default:"Non renseigné"|linebreaks }}</p>
+                </div>
+            </div>
+        </div>
+
+        {% if user.user_type == 'patient' %}
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">Mes rendez-vous</h4>
+                    <!-- Liste des rendez-vous -->
+                </div>
+            </div>
+        {% endif %}
+
+        {% if user.user_type == 'kine' %}
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">Mes rendez-vous</h4>
+                    <!-- Liste des rendez-vous -->
+                </div>
+            </div>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">Mes articles</h4>
+                    <!-- Liste des articles -->
+                </div>
+            </div>
+        {% endif %}
+
+        {% if user.user_type == 'vendor' %}
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">Mes commandes</h4>
+                    <!-- Liste des commandes -->
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 

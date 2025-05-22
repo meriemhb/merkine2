@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Rechercher un kiné</h2>
+<form method="get" class="mb-3">
+    <input type="text" name="q" placeholder="Nom ou prénom du kiné" class="form-control" value="{{ request.GET.q }}">
+    <button type="submit" class="btn btn-primary mt-2">Rechercher</button>
+</form>
+<ul>
+    {% for kine in kines %}
+        <li>{{ kine.get_full_name }}</li>
+    {% empty %}
+        <li>Aucun kiné trouvé.</li>
+    {% endfor %}
+</ul>
+{% if kines %}
+    <div class="text-center mt-4">
+        <a href="{% url 'accounts:demande_prise_en_charge_form' %}" class="btn btn-success btn-lg">Demander une prise en charge</a>
+    </div>
+{% endif %}
+{% endblock %} 

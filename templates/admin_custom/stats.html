@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}Rapports et Statistiques{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4">Rapports et Statistiques</h1>
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <div class="mb-2"><i class="bi bi-calendar3" style="font-size:2rem;"></i></div>
+                    <div class="fw-bold text-secondary">RENDEZ-VOUS CE MOIS</div>
+                    <div class="display-6">{{ stats.rdv_this_month|default:0 }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <div class="mb-2"><i class="bi bi-check-circle" style="font-size:2rem; color:green;"></i></div>
+                    <div class="fw-bold text-success">TAUX DE COMPLÉTION</div>
+                    <div class="display-6">{{ stats.completion_rate|default:'0%' }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <div class="mb-2"><i class="bi bi-person-plus" style="font-size:2rem; color:deepskyblue;"></i></div>
+                    <div class="fw-bold text-info">NOUVEAUX PATIENTS</div>
+                    <div class="display-6">{{ stats.new_patients|default:0 }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <div class="mb-2"><i class="bi bi-x-circle" style="font-size:2rem; color:orange;"></i></div>
+                    <div class="fw-bold text-warning">TAUX D'ANNULATION</div>
+                    <div class="display-6">{{ stats.cancel_rate|default:'0%' }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white fw-bold">Rendez-vous par statut</div>
+                <div class="card-body">
+                    <div style="height:200px; background:#f8f9fa; border-radius:8px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white fw-bold">Rendez-vous par mois</div>
+                <div class="card-body">
+                    <div style="height:200px; background:#f8f9fa; border-radius:8px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Bootstrap Icons CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+{% endblock %} 

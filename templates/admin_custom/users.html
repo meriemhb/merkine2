@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Gestion des utilisateurs{% endblock %}
+{% block content %}
+<h1>Gestion des Utilisateurs</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom d'utilisateur</th>
+            <th>Email</th>
+            <th>Rôle</th>
+            <th>Date d'inscription</th>
+            <th>Statut</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.get_user_type_display }}</td>
+            <td>{{ user.date_joined|date:'d/m/Y' }}</td>
+            <td>
+                {% if user.is_active %}
+                    <span class="badge bg-success">Actif</span>
+                {% else %}
+                    <span class="badge bg-danger">Inactif</span>
+                {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'accounts:admin_user_delete' user.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Supprimer cet utilisateur ?');">Supprimer</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %} 

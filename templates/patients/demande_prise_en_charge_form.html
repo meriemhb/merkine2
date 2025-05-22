@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Demander une prise en charge</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="kine" value="{{ kine.id }}">
+    <div class="mb-3">
+        <label>Kiné sélectionné :</label>
+        <input type="text" class="form-control" value="{{ kine.get_full_name }}" disabled>
+    </div>
+    <div class="mb-3">
+        <label for="lettre_medicale">Lettre médicale (photo ou PDF) :</label>
+        <input type="file" name="lettre_medicale" id="lettre_medicale" class="form-control" accept="image/*,application/pdf" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Envoyer la demande</button>
+</form>
+{% endblock %} 

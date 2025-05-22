@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Demande envoyée</h2>
+<p>Votre demande de prise en charge a bien été envoyée au kiné.</p>
+<a href="{% url 'accounts:search_kine' %}" class="btn btn-primary">Retour à la recherche</a>
+{% endblock %} 

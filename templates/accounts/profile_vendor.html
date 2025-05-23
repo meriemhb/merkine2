@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+    <div class="card shadow-sm p-4">
+        <h2 class="mb-4">Mon profil vendeur</h2>
+        <ul class="list-group mb-4">
+            <li class="list-group-item"><strong>Nom :</strong> {{ user.last_name }}</li>
+            <li class="list-group-item"><strong>Prénom :</strong> {{ user.first_name }}</li>
+            <li class="list-group-item"><strong>Email :</strong> {{ user.email }}</li>
+            <li class="list-group-item"><strong>Téléphone :</strong> {{ user.phone_number }}</li>
+        </ul>
+        <div class="d-flex gap-2">
+            <a href="/shop/vendeur/produits/" class="btn btn-primary">Voir mes produits</a>
+            <a href="/" class="btn btn-secondary">Accueil</a>
+        </div>
+    </div>
+</div>
+{% endblock %} 

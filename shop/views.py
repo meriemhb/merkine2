@@ -1,13 +1,25 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
-from .models import Product, Order, OrderItem, Review
-from accounts.models import CustomUser
+from .models import Product, Order, OrderItem
 
 def product_list(request):
     """Vue pour lister les produits"""
     products = Product.objects.all()
     return render(request, 'shop/product_list.html', {'products': products})
+@login_required
+def product_create(request):
+    """View to allow vendors to add a new product"""
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            product = form.save(commit=False)
+            product.vendor = request.user  # Assuming the Product model has a vendor field
+            product.save()
+            return redirect('shop:vendor_product_list')
+    else:
+        form = ProductForm()
+    return render(request, 'shop/vendor/product_form.html', {'form': form})
 
 def product_detail(request, pk):
     """Vue pour afficher les détails d'un produit"""
@@ -78,4 +90,9 @@ def vendor_dashboard(request):
         'products': products,
         'orders': orders,
     }
-    return render(request, 'shop/vendor/dashboard.html', context) 
+    return render(request, 'shop/vendor/dashboard.html', context)
+
+@vendor_required
+def vendor_product_list(request):
+    products = Product.objects.filter(vendor=request.user)
+    return render(request, 'shop/vendor/product_list.html', {'products': products})

@@ -26,4 +26,5 @@ urlpatterns = [
     path('kine/messages/', views.kine_messages, name='kine_messages'),
     path('kine/demandes/', views.kine_demandes, name='kine_demandes'),
     path('kine/profile/', views.kine_profile, name='kine_profile'),
+    path('profil-vendeur/', views.profile_vendor, name='profile_vendor'),
 ] 

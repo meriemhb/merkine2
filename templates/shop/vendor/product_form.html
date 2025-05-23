@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+    <div class="card shadow-sm p-4">
+        <h2 class="mb-4">Ajouter un produit</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="id_name" class="form-label">Nom du produit*</label>
+                    {{ form.name|add_class:"form-control" }}
+                </div>
+                <div class="col-md-6">
+                    <label for="id_stock" class="form-label">Quantité actuelle*</label>
+                    {{ form.stock|add_class:"form-control" }}
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="id_price" class="form-label">Prix (DA)*</label>
+                {{ form.price|add_class:"form-control" }}
+            </div>
+            <div class="mb-3">
+                <label for="id_description" class="form-label">Description</label>
+                {{ form.description|add_class:"form-control" }}
+            </div>
+            <div class="mb-3">
+                <label for="id_image" class="form-label">Image</label>
+                {{ form.image|add_class:"form-control" }}
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <a href="/shop/vendeur/produits/" class="btn btn-secondary">Annuler</a>
+        </form>
+    </div>
+</div>
+{% endblock %} 

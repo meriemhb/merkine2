@@ -217,4 +217,10 @@ def signup_vendor(request):
             return redirect('account_login')
     else:
         form = VendorSignUpForm()
-    return render(request, 'accounts/signup_vendor.html', {'form': form}) 
+    return render(request, 'accounts/signup_vendor.html', {'form': form})
+
+@login_required
+def profile_vendor(request):
+    if request.user.user_type != 'vendor':
+        return redirect('accounts:home')
+    return render(request, 'accounts/profile_vendor.html') 

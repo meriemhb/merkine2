@@ -2,6 +2,23 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from .models import Product, Order, OrderItem
+from django import forms
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['name', 'price', 'stock', 'description', 'image']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for name, field in self.fields.items():
+            if field.widget.__class__.__name__ == 'Textarea':
+                field.widget.attrs['rows'] = 5
+            if field.widget.__class__.__name__ == 'ClearableFileInput':
+                field.widget.attrs['class'] = 'form-control mt-2 w-100'
+            else:
+                field.widget.attrs['class'] = 'form-control w-100'
+            field.widget.attrs['style'] = 'max-width: 100%; min-width: 350px; font-size: 1.1rem; padding: 0.7rem 1rem;'
 
 def product_list(request):
     """Vue pour lister les produits"""

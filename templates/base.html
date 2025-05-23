@@ -45,6 +45,20 @@
                             <a class="nav-link" href="{% url 'accounts:kine_dashboard' %}">Espace kiné</a>
                         </li>
                     {% endif %}
+                    {% if user.is_authenticated and user.user_type == 'vendor' %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/shop/vendor/dashboard/">Tableau de bord</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/shop/vendeur/produits/ajouter/">Ajouter un produit</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/shop/vendeur/produits/">Voir tous les produits</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/profil-vendeur/">Mon profil vendeur</a>
+                        </li>
+                    {% endif %}
                 </ul>
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}

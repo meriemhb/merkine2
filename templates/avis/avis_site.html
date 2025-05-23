@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Ce que disent nos clients</h2>
+<form method="post" class="mb-4">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="texte">Votre avis :</label>
+        <textarea name="texte" id="texte" class="form-control" rows="3" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Envoyer mon avis</button>
+</form>
+<div>
+    {% for avis in avis_list %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <strong>{{ avis.auteur.get_full_name }}</strong>
+                <span class="text-muted" style="font-size:0.9em;">({{ avis.created_at|date:"d/m/Y H:i" }})</span>
+                <p class="mb-0">{{ avis.texte }}</p>
+            </div>
+        </div>
+    {% empty %}
+        <p>Aucun avis pour le moment.</p>
+    {% endfor %}
+</div>
+{% endblock %} 

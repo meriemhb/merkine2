@@ -8,11 +8,19 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
         fields = ('first_name', 'last_name', 'email', 'phone_number', 
-                 'address', 'profile_picture', 'bio')
+                 'address', 'profile_picture', 'bio', 'diplome', 'wilaya', 'diplome_file')
         widgets = {
             'bio': forms.Textarea(attrs={'rows': 4}),
             'address': forms.Textarea(attrs={'rows': 3}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Masquer les champs spécifiques aux kinés si l'utilisateur n'est pas kiné
+        if not self.instance.user_type == 'kine':
+            self.fields.pop('diplome', None)
+            self.fields.pop('wilaya', None)
+            self.fields.pop('diplome_file', None)
 
 class VendorSignUpForm(UserCreationForm):
     class Meta:

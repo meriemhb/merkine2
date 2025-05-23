@@ -42,7 +42,16 @@
                     {% endif %}
                     {% if user.is_authenticated and user.user_type == 'kine' %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'accounts:kine_dashboard' %}">Espace kiné</a>
+                            <a class="nav-link" href="{% url 'accounts:kine_publications_manage' %}">Publier un conseil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:kine_messages' %}">Messages</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:kine_demandes' %}">Demandes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:kine_profile' %}">Mon profil</a>
                         </li>
                     {% endif %}
                     {% if user.is_authenticated and user.user_type == 'vendor' %}

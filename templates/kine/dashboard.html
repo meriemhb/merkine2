@@ -1,10 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2 class="mb-4">Espace kiné</h2>
-<div class="d-flex flex-wrap gap-3 my-4">
-    <a href="{% url 'accounts:kine_publications_manage' %}" class="btn btn-primary">Publier un conseil</a>
-    <a href="{% url 'accounts:kine_messages' %}" class="btn btn-primary">Répondre aux messages</a>
-    <a href="{% url 'accounts:kine_demandes' %}" class="btn btn-primary">Demandes de prise en charge</a>
-    <a href="{% url 'accounts:kine_profile' %}" class="btn btn-secondary">Mon profil</a>
+<div class="alert alert-info">
+    <p class="mb-0">Bienvenue dans votre espace kiné. Utilisez la barre de navigation pour accéder à toutes les fonctionnalités.</p>
 </div>
 {% endblock %} 

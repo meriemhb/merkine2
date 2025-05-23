@@ -37,18 +37,33 @@
                     {% endif %}
                     {% if user.is_authenticated and user.user_type == 'patient' %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'accounts:patient_dashboard' %}">Espace patient</a>
+                            <a class="nav-link" href="{% url 'accounts:kine_publications' %}">Les publications</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:patient_message_kine' %}">Envoyer un message à un kiné</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:patient_shop' %}">Acheter des produits</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:search_kine' %}">Rechercher un kiné</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:reclamation_form' %}">Réclamation</a>
                         </li>
                     {% endif %}
                     {% if user.is_authenticated and user.user_type == 'kine' %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'accounts:kine_publications_manage' %}">Publier un conseil</a>
+                            <a class="nav-link" href="{% url 'accounts:kine_publications' %}">Les publications</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'accounts:kine_messages' %}">Messages</a>
+                            <a class="nav-link" href="{% url 'accounts:patient_message_kine' %}">Envoyer un message</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'accounts:kine_demandes' %}">Demandes</a>
+                            <a class="nav-link" href="{% url 'accounts:patient_shop' %}">Acheter des produits</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:search_kine' %}">Rechercher un kiné</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'accounts:kine_profile' %}">Mon profil</a>
@@ -66,6 +81,15 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/profil-vendeur/">Mon profil vendeur</a>
+                        </li>
+                    {% endif %}
+                    {% if user.is_authenticated and user.is_superuser %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:admin_reclamations' %}">Réclamations</a>
+                        </li>
+                    {% elif user.is_authenticated and user.user_type == 'admin' %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:admin_reclamations' %}">Réclamations</a>
                         </li>
                     {% endif %}
                 </ul>

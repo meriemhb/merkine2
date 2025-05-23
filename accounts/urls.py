@@ -27,4 +27,7 @@ urlpatterns = [
     path('kine/demandes/', views.kine_demandes, name='kine_demandes'),
     path('kine/profile/', views.kine_profile, name='kine_profile'),
     path('profil-vendeur/', views.profile_vendor, name='profile_vendor'),
+    path('patient/reclamation/', views.reclamation_form, name='reclamation_form'),
+    path('reclamations-admin/', views.admin_reclamations, name='admin_reclamations'),
+    path('avis/', views.avis_site, name='avis_site'),
 ] 

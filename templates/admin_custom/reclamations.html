@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Réclamations des patients</h2>
+{% for reclamation in reclamations %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <strong>Patient :</strong> {{ reclamation.patient.get_full_name }}<br>
+            <strong>Date :</strong> {{ reclamation.created_at|date:"d/m/Y H:i" }}<br>
+            <strong>Message :</strong> {{ reclamation.message }}<br>
+            {% if reclamation.repondu %}
+                <div class="alert alert-success mt-2">
+                    <strong>Réponse :</strong> {{ reclamation.reponse }}
+                </div>
+            {% else %}
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="reclamation_id" value="{{ reclamation.id }}">
+                    <div class="mb-2">
+                        <textarea name="reponse" class="form-control" rows="2" placeholder="Votre réponse..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">Répondre</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+{% empty %}
+    <p>Aucune réclamation.</p>
+{% endfor %}
+{% endblock %} 

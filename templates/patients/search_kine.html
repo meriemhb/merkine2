@@ -5,16 +5,24 @@
     <input type="text" name="q" placeholder="Nom ou prénom du kiné" class="form-control" value="{{ request.GET.q }}">
     <button type="submit" class="btn btn-primary mt-2">Rechercher</button>
 </form>
-<ul>
+
+<div class="list-group mt-4">
     {% for kine in kines %}
-        <li>{{ kine.get_full_name }}</li>
+        <div class="list-group-item d-flex align-items-center justify-content-between">
+            <div>
+                <strong>{{ kine.get_full_name }}</strong><br>
+                <span><strong>Spécialité:</strong> {{ kine.specialite|default:"Non spécifiée" }}</span><br>
+                <span><strong>Wilaya:</strong> {{ kine.wilaya|default:"Non spécifiée" }}</span>
+            </div>
+            <form method="get" action="{% url 'accounts:demande_prise_en_charge_form' %}" class="mb-0">
+                <input type="hidden" name="kine_id" value="{{ kine.id }}">
+                <button type="submit" class="btn btn-success">Demander une prise en charge</button>
+            </form>
+        </div>
     {% empty %}
-        <li>Aucun kiné trouvé.</li>
+        <div class="list-group-item text-center">
+            Aucun kiné trouvé.
+        </div>
     {% endfor %}
-</ul>
-{% if kines %}
-    <div class="text-center mt-4">
-        <a href="{% url 'accounts:demande_prise_en_charge_form' %}" class="btn btn-success btn-lg">Demander une prise en charge</a>
-    </div>
-{% endif %}
+</div>
 {% endblock %} 

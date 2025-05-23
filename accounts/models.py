@@ -60,4 +60,22 @@ class DemandePriseEnCharge(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Demande de {self.patient.get_full_name()} à {self.kine.get_full_name()}" 
+        return f"Demande de {self.patient.get_full_name()} à {self.kine.get_full_name()}"
+
+class Reclamation(models.Model):
+    patient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'user_type': 'patient'})
+    message = models.TextField()
+    reponse = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    repondu = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Réclamation de {self.patient.get_full_name()} le {self.created_at.strftime('%d/%m/%Y')}"
+
+class Avis(models.Model):
+    auteur = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'user_type__in': ['patient', 'vendor']})
+    texte = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Avis de {self.auteur.get_full_name()} le {self.created_at.strftime('%d/%m/%Y')}" 

@@ -8,7 +8,7 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from allauth.account.views import LoginView
-from .models import CustomUser
+from .models import CustomUser, DemandePriseEnCharge, Reclamation, Avis
 from .forms import CustomUserChangeForm
 from django.contrib.admin.views.decorators import staff_member_required
 from django.urls import reverse
@@ -153,17 +153,27 @@ def demande_prise_en_charge(request, kine_id):
 
 @patient_required
 def demande_prise_en_charge_form(request):
-    kine_id = request.GET.get('kine_id') or request.POST.get('kine')
+    kine_id = request.GET.get('kine_id')
+    if not kine_id:
+        messages.error(request, "Veuillez sélectionner un kiné.")
+        return redirect('accounts:search_kine')
+        
     kine = get_object_or_404(CustomUser, id=kine_id, user_type='kine', is_active=True, is_validated=True)
+    
     if request.method == 'POST':
         lettre = request.FILES.get('lettre_medicale')
         if lettre:
-            fs = FileSystemStorage()
-            filename = fs.save(lettre.name, lettre)
+            # Créer la demande de prise en charge
+            DemandePriseEnCharge.objects.create(
+                patient=request.user,
+                kine=kine,
+                lettre_medicale=lettre
+            )
             messages.success(request, "Demande envoyée avec succès !")
             return redirect('accounts:search_kine')
         else:
             messages.error(request, "Veuillez joindre une lettre médicale.")
+            
     return render(request, 'patients/demande_prise_en_charge_form.html', {'kine': kine})
 
 def kine_required(view_func):
@@ -223,4 +233,44 @@ def signup_vendor(request):
 def profile_vendor(request):
     if request.user.user_type != 'vendor':
         return redirect('accounts:home')
-    return render(request, 'accounts/profile_vendor.html') 
+    return render(request, 'accounts/profile_vendor.html')
+
+@patient_required
+def reclamation_form(request):
+    if request.method == 'POST':
+        message = request.POST.get('message')
+        if message:
+            Reclamation.objects.create(patient=request.user, message=message)
+            messages.success(request, "Votre réclamation a été envoyée à l'administrateur.")
+            return redirect('accounts:patient_dashboard')
+        else:
+            messages.error(request, "Veuillez écrire votre réclamation.")
+    return render(request, 'patients/reclamation_form.html')
+
+@staff_member_required
+def admin_reclamations(request):
+    if request.method == 'POST':
+        reclamation_id = request.POST.get('reclamation_id')
+        reponse = request.POST.get('reponse')
+        reclamation = Reclamation.objects.get(id=reclamation_id)
+        reclamation.reponse = reponse
+        reclamation.repondu = True
+        reclamation.save()
+        messages.success(request, "Réponse envoyée au patient.")
+    reclamations = Reclamation.objects.all().order_by('-created_at')
+    return render(request, 'admin_custom/reclamations.html', {'reclamations': reclamations})
+
+@login_required
+def avis_site(request):
+    if request.user.user_type not in ['patient', 'vendor']:
+        return redirect('accounts:home')
+    if request.method == 'POST':
+        texte = request.POST.get('texte')
+        if texte:
+            Avis.objects.create(auteur=request.user, texte=texte)
+            messages.success(request, "Merci pour votre avis !")
+            return redirect('accounts:avis_site')
+        else:
+            messages.error(request, "Veuillez écrire un avis.")
+    avis_list = Avis.objects.all().order_by('-created_at')
+    return render(request, 'avis/avis_site.html', {'avis_list': avis_list}) 

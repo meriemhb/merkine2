@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from .models import Product, Order, OrderItem
 from django import forms
+from django.forms import ModelForm
 
 class ProductForm(forms.ModelForm):
     class Meta:
@@ -19,6 +20,12 @@ class ProductForm(forms.ModelForm):
             else:
                 field.widget.attrs['class'] = 'form-control w-100'
             field.widget.attrs['style'] = 'max-width: 100%; min-width: 350px; font-size: 1.1rem; padding: 0.7rem 1rem;'
+
+class ProductPriceForm(ModelForm):
+    class Meta:
+        model = Product
+        fields = ['price']
+        labels = {'price': 'Nouveau prix'}
 
 def product_list(request):
     """Vue pour lister les produits"""
@@ -113,3 +120,31 @@ def vendor_dashboard(request):
 def vendor_product_list(request):
     products = Product.objects.filter(vendor=request.user)
     return render(request, 'shop/vendor/product_list.html', {'products': products})
+
+@vendor_required
+def modifier_prix(request, produit_id):
+    produit = get_object_or_404(Product, id=produit_id, vendor=request.user)
+    if request.method == 'POST':
+        form = ProductPriceForm(request.POST, instance=produit)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Prix modifié avec succès.')
+            return redirect('shop:vendor_product_list')
+    else:
+        form = ProductPriceForm(instance=produit)
+    return render(request, 'shop/vendor/modifier_prix.html', {'form': form, 'produit': produit})
+
+@vendor_required
+def voir_commandes_produit(request, produit_id):
+    produit = get_object_or_404(Product, id=produit_id, vendor=request.user)
+    commandes = OrderItem.objects.filter(product=produit)
+    return render(request, 'shop/vendor/commandes_produit.html', {'commandes': commandes, 'produit': produit})
+
+@vendor_required
+def supprimer_produit(request, produit_id):
+    produit = get_object_or_404(Product, id=produit_id, vendor=request.user)
+    if request.method == 'POST':
+        produit.delete()
+        messages.success(request, 'Produit supprimé avec succès.')
+        return redirect('shop:vendor_product_list')
+    return render(request, 'shop/vendor/supprimer_produit.html', {'produit': produit})

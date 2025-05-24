@@ -16,4 +16,7 @@ urlpatterns = [
     path('vendor/products/', views.vendor_product_list, name='vendor_product_list'),
     path('vendeur/produits/', views.vendor_product_list, name='vendor_product_list_alt'),
     path('vendeur/produits/ajouter/', views.product_create, name='vendor_product_create'),
+    path('vendeur/produit/<int:produit_id>/modifier-prix/', views.modifier_prix, name='modifier_prix'),
+    path('vendeur/produit/<int:produit_id>/commandes/', views.voir_commandes_produit, name='voir_commandes_produit'),
+    path('vendeur/produit/<int:produit_id>/supprimer/', views.supprimer_produit, name='supprimer_produit'),
 ] 

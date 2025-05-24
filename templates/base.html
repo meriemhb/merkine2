@@ -37,20 +37,20 @@
                     {% endif %}
                     {% if user.is_authenticated and user.user_type == 'patient' %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'accounts:kine_publications' %}">Les publications</a>
+                            <a class="nav-link" href="{% url 'accounts:kine_publications' %}">Publication</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'accounts:patient_message_kine' %}">Envoyer un message à un kiné</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'accounts:patient_shop' %}">Acheter des produits</a>
+                            <a class="nav-link" href="{% url 'accounts:patient_shop' %}">Boutique</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'accounts:search_kine' %}">Rechercher un kiné</a>
                         </li>
                         {% if user.is_authenticated and user.user_type == 'patient' %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'accounts:avis_site' %}">Notre avis</a>
+                                <a class="nav-link" href="{% url 'accounts:avis_site' %}">Avis</a>
                             </li>
                         {% endif %}
                         <li class="nav-item">
@@ -59,13 +59,13 @@
                     {% endif %}
                     {% if user.is_authenticated and user.user_type == 'kine' %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'accounts:kine_publications' %}">Les publications</a>
+                            <a class="nav-link" href="{% url 'accounts:kine_publications' %}">Publication</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'accounts:patient_message_kine' %}">Envoyer un message</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'accounts:patient_shop' %}">Acheter des produits</a>
+                            <a class="nav-link" href="{% url 'accounts:patient_shop' %}">Boutique</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'accounts:search_kine' %}">Rechercher un kiné</a>

@@ -4,17 +4,19 @@
     <h2 class="mb-4">Mes produits</h2>
     <div class="row g-4">
         {% for product in products %}
-        <div class="col-md-4">
-            <div class="card h-100 text-center border-0 shadow">
-                <div class="card-body">
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 120px; height: 120px; object-fit: contain;" class="mb-3">
-                    {% endif %}
-                    <h4 class="card-title">{{ product.name }}</h4>
-                    <p class="card-text">{{ product.price }} DA</p>
-                    <div class="d-flex justify-content-center gap-2 mt-2">
-                        <a href="#" class="btn btn-warning"><i class="bi bi-pencil"></i></a>
-                        <a href="#" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+        <div class="col-md-4 mb-4">
+            <div class="card card-vendeur h-100">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top img-produit-vendeur" alt="{{ product.name }}">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title mb-1">{{ product.name }}</h5>
+                    <div class="mb-2" style="color:#444; font-size:1.1rem;">{{ product.price }} DA</div>
+                    <span class="badge badge-stock mb-2">En stock</span>
+                    <div class="mt-auto d-flex flex-column gap-2">
+                        <a href="{% url 'shop:modifier_prix' product.id %}" class="btn btn-outline-primary w-100">Modifier le prix</a>
+                        <a href="{% url 'shop:voir_commandes_produit' product.id %}" class="btn btn-outline-secondary w-100">Voir les commandes</a>
+                        <a href="{% url 'shop:supprimer_produit' product.id %}" class="btn btn-outline-danger w-100" onclick="return confirm('Supprimer ce produit ?');">Supprimer</a>
                     </div>
                 </div>
             </div>

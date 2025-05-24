@@ -17,7 +17,7 @@ class CustomUser(AbstractUser):
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
     bio = models.TextField(blank=True)
     is_validated = models.BooleanField(default=True)  # True par défaut, sauf pour les kinés
-    
+
     # Champs spécifiques aux kinésithérapeutes
     diplome = models.CharField(max_length=100, blank=True, null=True, verbose_name="Diplôme")
     wilaya = models.CharField(max_length=50, blank=True, null=True, verbose_name="Wilaya")
@@ -60,7 +60,7 @@ class DemandePriseEnCharge(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Demande de {self.patient.get_full_name()} à {self.kine.get_full_name()}"
+        return f"Demande de {self.patient.get_full_name()} à {self.kine.get_full_name()}" 
 
 class Reclamation(models.Model):
     patient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'user_type': 'patient'})

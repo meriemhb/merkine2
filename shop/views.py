@@ -8,7 +8,10 @@ from django.forms import ModelForm
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'price', 'stock', 'description', 'image']
+        fields = ['name', 'price', 'stock', 'category', 'description', 'image']
+        widgets = {
+            'category': forms.Select(attrs={'class': 'form-control', 'style': 'font-size:1.1rem; padding:0.7rem 1rem; border-radius:8px; background:#f8fafc; border:1.5px solid #b6c6e3;'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -114,7 +117,7 @@ def vendor_dashboard(request):
         'products': products,
         'orders': orders,
     }
-    return render(request, 'shop/vendor/dashboard.html', context)
+    return render(request, 'shop/vendor/dashboard.html', context) 
 
 @vendor_required
 def vendor_product_list(request):
@@ -148,3 +151,16 @@ def supprimer_produit(request, produit_id):
         messages.success(request, 'Produit supprimé avec succès.')
         return redirect('shop:vendor_product_list')
     return render(request, 'shop/vendor/supprimer_produit.html', {'produit': produit})
+
+@vendor_required
+def vendor_product_edit(request, produit_id):
+    produit = get_object_or_404(Product, id=produit_id, vendor=request.user)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES, instance=produit)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Produit modifié avec succès.')
+            return redirect('shop:vendor_dashboard')
+    else:
+        form = ProductForm(instance=produit)
+    return render(request, 'shop/vendor/product_form.html', {'form': form, 'produit': produit})

@@ -4,108 +4,163 @@
 
 {% block content %}
 <style>
+    body {
+        background: linear-gradient(120deg, #eaf4ff 0%, #f7fbff 100%);
+    }
     .product-form-card {
         max-width: 1100px;
-        margin: 40px auto;
+        margin: 48px auto;
         background: #fff;
-        border-radius: 18px;
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-        padding: 1.5rem 2.5rem 1.2rem 2.5rem;
+        border-radius: 32px;
+        box-shadow: 0 8px 40px rgba(13,110,253,0.13), 0 1.5px 8px rgba(0,0,0,0.04);
+        padding: 2.5rem 3.5rem 2.2rem 3.5rem;
     }
-    .product-form-card h1 {
-        font-size: 2.2rem;
-        font-weight: bold;
-        background: linear-gradient(90deg, #007bff, #00bfff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-align: center;
-        margin-bottom: 1.2rem;
-        text-decoration: underline #00bfff;
+    .product-form-card .form-title-bar {
+        background: #1976d2;
+        color: #fff;
+        border-radius: 24px 24px 0 0;
+        padding: 1.3rem 2.2rem 1.3rem 2.5rem;
+        font-size: 2rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        margin: -2.5rem -3.5rem 2.5rem -3.5rem;
+        box-shadow: 0 2px 12px rgba(25,118,210,0.08);
     }
     .form-label {
-        font-weight: 500;
-        color: #0d6efd;
+        font-weight: 600;
+        color: #1976d2;
+        font-size: 1.13rem;
+        margin-bottom: 0.3rem;
     }
-    .form-control, .form-control:focus {
-        border-radius: 8px;
-        border: 1px solid #cfd8dc;
+    .form-control, .form-control:focus, select.form-control {
+        border-radius: 12px;
+        border: 1.5px solid #b6c6e3;
         box-shadow: none;
-        font-size: 1.1rem;
+        font-size: 1.13rem;
         background: #f8fafc;
+        padding: 0.9rem 1.1rem;
+        transition: border 0.2s;
     }
-    .form-control:focus {
-        border-color: #007bff;
+    .form-control:focus, select.form-control:focus {
+        border-color: #1976d2;
         background: #fff;
+    }
+    select.form-control {
+        cursor: pointer;
+        font-weight: 600;
+        color: #1976d2;
+        background: #f7fbff;
+        min-width: 180px;
     }
     .form-row {
         display: flex;
-        gap: 2rem;
-        margin-bottom: 1.2rem;
+        gap: 2.2rem;
+        margin-bottom: 1.5rem;
     }
     .form-col {
         flex: 1 1 0;
         min-width: 0;
     }
-    .btn-primary {
-        background: linear-gradient(90deg, #007bff, #00bfff);
+    .form-text {
+        font-size: 0.98em;
+        color: #6c757d;
+        margin-top: 0.2rem;
+    }
+    .d-flex.gap-3.mt-4 {
+        gap: 1.5rem !important;
+    }
+    .btn-primary, .btn-success {
+        background: linear-gradient(90deg, #1976d2 60%, #4fc3f7 100%);
         border: none;
-        font-weight: 600;
-        font-size: 1.1rem;
-        min-width: 140px;
+        font-weight: 700;
+        font-size: 1.15rem;
+        min-width: 160px;
+        padding: 0.9rem 1.5rem;
+        border-radius: 14px;
+        box-shadow: 0 2px 8px rgba(25,118,210,0.07);
+        transition: background 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover, .btn-success:hover {
+        background: linear-gradient(90deg, #1251a3 60%, #039be5 100%);
+        color: #fff;
+        box-shadow: 0 4px 16px rgba(25,118,210,0.13);
     }
     .btn-secondary {
         background: #6c757d;
         border: none;
-        font-weight: 600;
-        font-size: 1.1rem;
-        min-width: 140px;
+        font-weight: 700;
+        font-size: 1.15rem;
+        min-width: 160px;
+        padding: 0.9rem 1.5rem;
+        border-radius: 14px;
     }
     .btn:focus {
-        box-shadow: 0 0 0 0.2rem #007bff33;
+        box-shadow: 0 0 0 0.2rem #1976d233;
     }
     @media (max-width: 1200px) {
         .product-form-card {
             max-width: 98vw;
-            padding: 1rem 0.5rem;
+            padding: 1.2rem 0.5rem;
         }
         .form-row {
             flex-direction: column;
             gap: 0.5rem;
         }
+        .product-form-card .form-title-bar {
+            font-size: 1.2rem;
+            padding: 1rem 1rem 1rem 1.2rem;
+            margin: -1.2rem -0.5rem 1.5rem -0.5rem;
+        }
     }
 </style>
 
 <div class="product-form-card">
-    <h1>Ajouter un produit</h1>
+    <div class="form-title-bar">
+        <i class="fas fa-plus-circle" style="font-size:2.1rem;"></i> Ajouter un nouveau produit
+    </div>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-row">
             <div class="form-col">
-                <label for="id_name" class="form-label">Nom du produit</label>
+                <label for="id_name" class="form-label">Nom du produit*</label>
                 {{ form.name }}
+                <div class="form-text text-muted" style="font-size:0.95em;">50 caractères maximum</div>
             </div>
             <div class="form-col">
-                <label for="id_price" class="form-label">Prix</label>
-                {{ form.price }}
-            </div>
-            <div class="form-col">
-                <label for="id_stock" class="form-label">Stock</label>
-                {{ form.stock }}
+                <label for="id_price" class="form-label">Prix (DA)*</label>
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    {{ form.price }}
+                    <span style="font-weight:600; color:#1976d2;">DA</span>
+                </div>
             </div>
         </div>
         <div class="form-row">
             <div class="form-col">
+                <label for="id_stock" class="form-label">Quantité en stock*</label>
+                {{ form.stock }}
+                <div class="form-text text-muted" style="font-size:0.95em;">Ex: 10</div>
+            </div>
+            <div class="form-col">
+                <label for="id_category" class="form-label">Catégorie</label>
+                {{ form.category }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-col">
+                <label for="id_image" class="form-label">Image du produit*</label>
+                {{ form.image }}
+                <div class="form-text text-muted" style="font-size:0.95em;">URL d'une image claire du produit</div>
+            </div>
+            <div class="form-col">
                 <label for="id_description" class="form-label">Description</label>
                 {{ form.description }}
             </div>
-            <div class="form-col">
-                <label for="id_image" class="form-label">Image</label>
-                {{ form.image }}
-            </div>
         </div>
-        <div class="d-flex justify-content-center gap-3 mt-4">
-            <button type="submit" class="btn btn-primary rounded-pill">Enregistrer</button>
-            <a href="{% url 'shop:vendor_product_list' %}" class="btn btn-secondary rounded-pill">Annuler</a>
+        <div class="d-flex justify-content-end gap-3 mt-4">
+            <a href="{% url 'shop:vendor_product_list' %}" class="btn btn-secondary rounded-pill"><i class="fas fa-times"></i> Annuler</a>
+            <button type="submit" class="btn btn-success rounded-pill"><i class="fas fa-check"></i> Enregistrer</button>
         </div>
     </form>
 </div>

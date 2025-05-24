@@ -2,11 +2,22 @@ from django.db import models
 from django.conf import settings
 
 class Product(models.Model):
+    CATEGORY_CHOICES = [
+        ("Produits de soins et de massage", "Produits de soins et de massage"),
+        ("Matériel de rééducation fonctionnelle", "Matériel de rééducation fonctionnelle"),
+        ("Équipements de renforcement musculaire", "Équipements de renforcement musculaire"),
+        ("Produits de cryothérapie", "Produits de cryothérapie"),
+        ("Appareils électromédicaux", "Appareils électromédicaux"),
+        ("Supports et orthèses", "Supports et orthèses"),
+        ("Mobilier et accessoires professionnels", "Mobilier et accessoires professionnels"),
+        ("autre", "Autre"),
+    ]
     name = models.CharField(max_length=200)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.IntegerField(default=0)
     image = models.ImageField(upload_to='products/')
+    category = models.CharField(max_length=60, choices=CATEGORY_CHOICES, default="autre")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     vendor = models.ForeignKey(

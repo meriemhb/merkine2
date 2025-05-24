@@ -30,7 +30,9 @@
                 {% endif %}
             </td>
             <td>
-                <a href="{% url 'accounts:admin_user_delete' user.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Supprimer cet utilisateur ?');">Supprimer</a>
+                {% if request.user.is_superuser or request.user.user_type == 'admin' %}
+                    <a href="{% url 'accounts:admin_user_delete' user.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Supprimer cet utilisateur ?');">Supprimer</a>
+                {% endif %}
             </td>
         </tr>
         {% endfor %}
